@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   nginx:
     build: nginx
@@ -11,7 +11,9 @@ services:
       - ohif
 
   ohif:
-    build: ohif
+    container_name: ohif-viewer-prototype
+    image: ohif/viewer
+    # build: ohif
     # optional if you want to customize the OHIF configuration:
     volumes:
       - ./ohif/default-app-config.js:/usr/share/nginx/html/app-config.js
@@ -41,7 +43,6 @@ services:
 
       VERBOSE_STARTUP: "true"
 
-
   orthanc-plugin:
     image: orthancteam/orthanc:24.7.3
     restart: unless-stopped
@@ -65,7 +66,7 @@ services:
         {
           "RouterBasename": "/orthanc-plugin/ohif/",
           "DataSource" : "dicom-web"
-        } 
+        }
 
       ORTHANC__AUTHENTICATION_ENABLED: "false"
       ORTHANC__POSTGRESQL: |
@@ -75,7 +76,6 @@ services:
 
       VERBOSE_STARTUP: "true"
 
-
   orthanc-index:
     image: postgres:15
     restart: unless-stopped
@@ -83,7 +83,6 @@ services:
     volumes: ["orthanc-index:/var/lib/postgresql/data"]
     environment:
       POSTGRES_HOST_AUTH_METHOD: "trust"
-
 
 volumes:
   orthanc-storage:
